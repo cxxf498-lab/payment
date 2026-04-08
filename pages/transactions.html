@@ -1,0 +1,71 @@
+<!-- 交易记录页 -->
+<div class="transactions-container">
+  <!-- 顶部操作栏 -->
+  <div class="page-header">
+    <h1 class="page-title">交易记录</h1>
+    <div class="header-actions">
+      <button class="btn btn-secondary" onclick="exportTransactions()">
+        <span>📥</span>
+        <span>导出数据</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 筛选区域 -->
+  <div class="glass-card filter-section">
+    <div class="filter-grid">
+      <div class="filter-item">
+        <input
+          type="text"
+          id="searchInput"
+          class="input"
+          placeholder="🔍 搜索交易ID或收款人"
+        />
+      </div>
+      <div class="filter-item">
+        <select id="currencyFilter" class="select">
+          <option value="">全部币种</option>
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+          <option value="CNY">CNY</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <select id="statusFilter" class="select">
+          <option value="">全部状态</option>
+          <option value="completed">已完成</option>
+          <option value="pending">进行中</option>
+          <option value="failed">失败</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <input type="date" id="startDate" class="input" placeholder="开始日期" />
+      </div>
+      <div class="filter-item">
+        <input type="date" id="endDate" class="input" placeholder="结束日期" />
+      </div>
+      <div class="filter-item">
+        <button class="btn btn-primary btn-full filter-btn" onclick="executeSearch()">
+          搜索
+        </button>
+      </div>
+      <div class="filter-item">
+        <button class="btn btn-secondary btn-full filter-btn" onclick="resetTransactionFilters()">
+          重置筛选
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 交易记录表格 -->
+  <div class="glass-card transactions-list">
+    <div id="transactionsTable">
+      <!-- 表格将通过JavaScript动态生成 -->
+    </div>
+
+    <!-- 分页 -->
+    <div id="transactionsPagination">
+      <!-- 分页组件将通过JavaScript动态生成 -->
+    </div>
+  </div>
+</div>

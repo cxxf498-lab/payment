@@ -1,0 +1,104 @@
+<!-- 收款人管理页 -->
+<div class="beneficiaries-container">
+  <!-- 顶部操作栏 -->
+  <div class="page-header">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <a href="#payment" class="btn btn-secondary" style="text-decoration: none;">
+        <span>←</span>
+        <span>返回代付</span>
+      </a>
+      <h1 class="page-title" style="margin: 0;">收款人管理</h1>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-secondary" onclick="handleBatchDelete()" id="batchDeleteBtn" style="display: none;">
+        <span>🗑️</span>
+        <span>批量删除</span>
+      </button>
+      <button class="btn btn-primary" onclick="openBeneficiaryModal()">
+        <span>+</span>
+        <span>新增收款人</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 主内容区 - 左右分栏 -->
+  <div class="beneficiaries-main">
+    <!-- 左侧分组列表 -->
+    <div class="glass-card groups-sidebar">
+      <div class="groups-header">
+        <h3>分组</h3>
+        <button class="btn btn-sm btn-secondary" onclick="createNewGroup()" title="新建分组">
+          +
+        </button>
+      </div>
+      <div id="groupsList" class="groups-list">
+        <!-- 分组列表将通过JavaScript动态生成 -->
+      </div>
+    </div>
+
+    <!-- 右侧收款人列表 -->
+    <div class="beneficiaries-content">
+      <!-- 搜索和筛选区 -->
+      <div class="glass-card filter-section">
+        <div class="filter-grid">
+          <div class="filter-item">
+            <input
+              type="text"
+              id="searchInput"
+              class="input"
+              placeholder="🔍 搜索收款人姓名、银行或备注"
+            />
+          </div>
+          <div class="filter-item">
+            <select id="tagFilter" class="select">
+              <option value="">全部标签</option>
+              <option value="常用">常用</option>
+              <option value="VIP">VIP</option>
+              <option value="新增">新增</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <select id="currencyFilter" class="select">
+              <option value="">全部币种</option>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+              <option value="CNY">CNY</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <select id="riskLevelFilter" class="select">
+              <option value="">全部风险等级</option>
+              <option value="low">低风险</option>
+              <option value="medium">中风险</option>
+              <option value="high">高风险</option>
+            </select>
+          </div>
+          <div class="filter-item">
+            <select id="statusFilter" class="select">
+              <option value="">全部状态</option>
+              <option value="active">有效</option>
+              <option value="inactive">已停用</option>
+            </select>
+          </div>
+        </div>
+        <div class="filter-buttons">
+          <button class="btn btn-primary filter-btn" onclick="renderBeneficiariesTable()">
+            搜索
+          </button>
+          <button class="btn btn-secondary filter-btn" onclick="resetFilters()">
+            重置筛选
+          </button>
+        </div>
+      </div>
+
+      <!-- 收款人列表 -->
+      <div class="glass-card beneficiaries-list">
+        <div id="beneficiariesTable">
+          <!-- 表格将通过JavaScript动态生成 -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 新增/编辑收款人模态框（将通过JavaScript动态创建） -->

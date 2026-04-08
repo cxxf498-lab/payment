@@ -1,0 +1,51 @@
+<div class="notifications-page">
+  <div class="page-header">
+    <h1 class="page-title">通知中心</h1>
+    <div class="page-actions">
+      <button class="btn btn-secondary" id="markAllReadBtn">
+        <span>✓</span> 全部已读
+      </button>
+      <button class="btn btn-secondary" id="clearAllBtn">
+        <span>🗑️</span> 清空通知
+      </button>
+    </div>
+  </div>
+
+  <!-- 筛选器 -->
+  <div class="glass-card" style="margin-bottom: 24px; padding: 20px;">
+    <div class="filter-row">
+      <div class="filter-item">
+        <label>状态</label>
+        <select id="statusFilter" class="input">
+          <option value="">全部</option>
+          <option value="unread">未读</option>
+          <option value="read">已读</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <label>类型</label>
+        <select id="typeFilter" class="input">
+          <option value="">全部</option>
+          <option value="transaction_approved">审核通过</option>
+          <option value="transaction_rejected">审核拒绝</option>
+          <option value="transaction_completed">交易完成</option>
+          <option value="transaction_failed">交易失败</option>
+          <option value="transaction_pending">待审核</option>
+          <option value="batch_completed">批次完成</option>
+          <option value="batch_partial_success">批次部分成功</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <button class="btn btn-primary" id="applyFilterBtn">应用筛选</button>
+        <button class="btn btn-secondary" id="resetFilterBtn">重置</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 通知列表 -->
+  <div class="glass-card">
+    <div id="notificationsList">
+      <!-- 通知列表将通过JavaScript动态生成 -->
+    </div>
+  </div>
+</div>

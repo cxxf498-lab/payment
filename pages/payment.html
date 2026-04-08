@@ -1,0 +1,380 @@
+<!-- 代付页面 -->
+<div class="payment-container">
+  <!-- 左侧表单区 -->
+  <div class="payment-main">
+    <div class="glass-card payment-card">
+      <!-- 表单标题 -->
+      <div class="form-header">
+        <h2 class="form-title">发起代付</h2>
+        <p class="form-subtitle">快速、安全的国际转账服务</p>
+      </div>
+
+      <!-- 标签页导航 -->
+      <div class="payment-tabs">
+        <button class="tab-btn active" onclick="switchPaymentTab('single')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          单笔代付
+        </button>
+        <button class="tab-btn" onclick="switchPaymentTab('batch')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 4H18C18.5304 4 19.0391 4.21071 19.4142 4.58579C19.7893 4.96086 20 5.46957 20 6V20C20 20.5304 19.7893 21.0391 19.4142 21.4142C19.0391 21.7893 18.5304 22 18 22H6C5.46957 22 4.96086 21.7893 4.58579 21.4142C4.21071 21.0391 4 20.5304 4 20V6C4 5.46957 4.21071 4.96086 4.58579 4.58579C4.96086 4.21071 5.46957 4 6 4H8"></path>
+            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+            <line x1="9" y1="12" x2="15" y2="12"></line>
+            <line x1="9" y1="16" x2="15" y2="16"></line>
+          </svg>
+          批量代付
+        </button>
+      </div>
+
+      <!-- 单笔代付标签页内容 -->
+      <div id="singlePaymentTab" class="tab-content active">
+
+      <!-- 表单内容 -->
+      <form id="paymentForm" class="payment-form">
+        <!-- 汇出金额 -->
+        <div class="input-group">
+          <label class="input-label">
+            <span class="label-icon">💰</span>
+            <span>您汇出金额</span>
+            <span class="input-required">*</span>
+          </label>
+          <div class="amount-input-wrapper">
+            <div class="amount-input-container">
+              <input
+                type="number"
+                id="paymentAmount"
+                class="input amount-input"
+                placeholder="0.00"
+                step="0.01"
+                min="0"
+              />
+              <button type="button" class="max-btn" onclick="setMaxAmount()">最大</button>
+            </div>
+            <select id="paymentCurrency" class="select currency-select" disabled>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+              <option value="CNY">CNY</option>
+            </select>
+          </div>
+          <div class="available-balance" id="availableBalance">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 12V22H4V12"></path>
+              <path d="M22 7H2V12H22V7Z"></path>
+              <path d="M12 22V7"></path>
+              <path d="M12 7H7.5C6.83696 7 6.20107 6.73661 5.73223 6.26777C5.26339 5.79893 5 5.16304 5 4.5C5 3.83696 5.26339 3.20107 5.73223 2.73223C6.20107 2.26339 6.83696 2 7.5 2C11 2 12 7 12 7Z"></path>
+              <path d="M12 7H16.5C17.163 7 17.7989 6.73661 18.2678 6.26777C18.7366 5.79893 19 5.16304 19 4.5C19 3.83696 18.7366 3.20107 18.2678 2.73223C17.7989 2.26339 17.163 2 16.5 2C13 2 12 7 12 7Z"></path>
+            </svg>
+            可用额度: 0.00 USD
+          </div>
+        </div>
+
+        <!-- 汇率显示 -->
+        <div class="exchange-rate-display" id="exchangeRateDisplay">
+          <div class="rate-content">
+            <svg class="exchange-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 16V4M7 4L3 8M7 4L11 8"></path>
+              <path d="M17 8V20M17 20L21 16M17 20L13 16"></path>
+            </svg>
+            <span id="exchangeRateText">1 USD = 0.99868 USD</span>
+          </div>
+          <button type="button" class="refresh-rate-btn" onclick="refreshExchangeRate()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.5 2V8H15.5"></path>
+              <path d="M2.5 22V16H8.5"></path>
+              <path d="M2 11.5C2.24 8.53 3.64 5.77 5.93 3.83C8.22 1.89 11.18 0.93 14.16 1.15C17.14 1.37 19.91 2.75 21.86 5"></path>
+              <path d="M22 12.5C21.76 15.47 20.36 18.23 18.07 20.17C15.78 22.11 12.82 23.07 9.84 22.85C6.86 22.63 4.09 21.25 2.14 19"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- 收款人账户 -->
+        <div class="input-group">
+          <label class="input-label">
+            <span class="label-icon">👤</span>
+            <span>收款人账户</span>
+            <span class="input-required">*</span>
+          </label>
+          <select id="beneficiaryId" class="select">
+            <option value="">选择收款人账户</option>
+          </select>
+          <div class="beneficiary-actions">
+            <a href="javascript:void(0);" class="action-link" onclick="openAddBeneficiaryModal()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              添加收款人
+            </a>
+            <span class="action-divider">|</span>
+            <a href="#beneficiaries" class="action-link">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              管理收款人
+            </a>
+          </div>
+        </div>
+
+        <!-- 收款方收到 -->
+        <div class="input-group">
+          <label class="input-label">
+            <span class="label-icon">📥</span>
+            <span>收款方收到</span>
+          </label>
+          <div class="amount-input-wrapper">
+            <input
+              type="text"
+              id="receivedAmount"
+              class="input received-input"
+              value="0.00"
+              readonly
+            />
+            <select class="select currency-select" disabled>
+              <option value="USD">USD</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 费用明细 -->
+        <div class="fee-details" id="feeDetails">
+          <div class="fee-header">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="1" x2="12" y2="23"></line>
+              <path d="M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6"></path>
+            </svg>
+            <span>费用明细</span>
+          </div>
+          <div class="fee-row">
+            <span class="fee-label">汇出金额</span>
+            <span class="fee-value" id="feeAmount">0.00 USD</span>
+          </div>
+          <div class="fee-row">
+            <span class="fee-label">手续费 <span class="fee-rate">(1%)</span></span>
+            <span class="fee-value fee-highlight" id="feeCharge">+ 0.00 USD</span>
+          </div>
+          <div class="fee-divider"></div>
+          <div class="fee-row fee-total">
+            <span class="fee-label">您需支付</span>
+            <span class="fee-value" id="feeTotal">0.00 USD</span>
+          </div>
+        </div>
+
+        <!-- 付款备注 -->
+        <div class="input-group">
+          <label class="input-label">
+            <span class="label-icon">📝</span>
+            <span>付款备注</span>
+            <span class="label-optional">（选填）</span>
+          </label>
+          <textarea
+            id="paymentNote"
+            class="input textarea"
+            placeholder="请输入付款备注信息..."
+            maxlength="64"
+            rows="3"
+          ></textarea>
+          <div class="char-count">
+            <span id="noteCharCount">0</span>/64
+          </div>
+        </div>
+
+        <!-- 提交按钮 -->
+        <button type="submit" class="btn btn-primary btn-lg btn-full submit-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12H19"></path>
+            <path d="M12 5L19 12L12 19"></path>
+          </svg>
+          <span>确认转账</span>
+        </button>
+      </form>
+      </div>
+
+      <!-- 批量代付标签页内容 -->
+      <div id="batchPaymentTab" class="tab-content" style="display: none;">
+        <div class="batch-payment-container">
+          <!-- 步骤1: 上传文件 -->
+          <div class="batch-step" id="batchStep1">
+            <div class="step-header">
+              <div class="step-number">1</div>
+              <div class="step-info">
+                <h3 class="step-title">上传文件</h3>
+                <p class="step-desc">支持 CSV、XLSX 格式，最多500笔/次</p>
+              </div>
+            </div>
+
+            <div class="file-upload-area" id="fileUploadArea" onclick="document.getElementById('batchFileInput').click()">
+              <input type="file" id="batchFileInput" accept=".csv,.xlsx" style="display: none;" onchange="handleBatchFileUpload(event)">
+              <div class="upload-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+              </div>
+              <div class="upload-text">
+                <p class="upload-title">拖拽文件到此处或点击上传</p>
+                <p class="upload-subtitle">支持 CSV, XLSX 格式</p>
+              </div>
+            </div>
+
+            <div class="template-download">
+              <a href="javascript:void(0);" onclick="downloadBatchTemplate()" class="template-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                下载批量代付模板
+              </a>
+            </div>
+
+            <div class="batch-upload-notice">
+              <svg class="notice-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <div class="notice-content">
+                <strong>重要提示：</strong>
+                <ul>
+                  <li>批量代付的收款人必须是系统中已添加的收款人</li>
+                  <li>请先在 <a href="beneficiaries.html" class="notice-link">收款人管理</a> 中添加收款人</li>
+                  <li>在收款人列表中可以查看和复制收款人ID</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- 步骤2: 验证与预览 -->
+          <div class="batch-step" id="batchStep2" style="display: none;">
+            <div class="step-header">
+              <div class="step-number">2</div>
+              <div class="step-info">
+                <h3 class="step-title">验证与预览</h3>
+                <p class="step-desc">检查数据并修正错误</p>
+              </div>
+            </div>
+
+            <!-- 验证结果统计 -->
+            <div class="validation-summary" id="validationSummary">
+              <div class="summary-item success">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>成功: <strong id="successCount">0</strong>笔</span>
+              </div>
+              <div class="summary-item error">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="15" y1="9" x2="9" y2="15"></line>
+                  <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>
+                <span>失败: <strong id="failedCount">0</strong>笔</span>
+              </div>
+            </div>
+
+            <!-- 预览表格 -->
+            <div class="batch-preview-table" id="batchPreviewTable">
+              <!-- 表格将通过JS动态生成 -->
+            </div>
+
+            <!-- 汇总信息 -->
+            <div class="batch-summary" id="batchSummary">
+              <div class="summary-row">
+                <span class="summary-label">总笔数:</span>
+                <span class="summary-value" id="summaryTotalCount">0笔</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-label">总金额:</span>
+                <span class="summary-value" id="summaryTotalAmount">$0.00</span>
+              </div>
+              <div class="summary-row">
+                <span class="summary-label">总手续费:</span>
+                <span class="summary-value" id="summaryTotalFee">$0.00</span>
+              </div>
+              <div class="summary-row total">
+                <span class="summary-label">需支付:</span>
+                <span class="summary-value" id="summaryTotal">$0.00</span>
+              </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="batch-actions">
+              <button type="button" class="btn btn-secondary" onclick="cancelBatchUpload()">取消</button>
+              <button type="button" class="btn btn-primary" onclick="submitBatchPayments()" id="submitBatchBtn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12H19"></path>
+                  <path d="M12 5L19 12L12 19"></path>
+                </svg>
+                提交批量代付
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 右侧提示区 -->
+  <div class="payment-sidebar">
+    <!-- 提现提示 -->
+    <div class="glass-card info-card">
+      <div class="info-header">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        <h3 class="sidebar-title">提现提示</h3>
+      </div>
+      <div class="notice-list">
+        <div class="notice-item">
+          <div class="notice-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M12 6V12L16 14"></path>
+            </svg>
+          </div>
+          <div class="notice-content">
+            <div class="notice-title">账户核对</div>
+            <div class="notice-text">请仔细确认收款账号信息，以避免资金延迟或丢失</div>
+          </div>
+        </div>
+        <div class="notice-item">
+          <div class="notice-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </div>
+          <div class="notice-content">
+            <div class="notice-title">到账时间</div>
+            <div class="notice-text">预计 1-3 个工作日到账</div>
+          </div>
+        </div>
+        <div class="notice-item">
+          <div class="notice-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </div>
+          <div class="notice-content">
+            <div class="notice-title">客户支持</div>
+            <div class="notice-text">
+              <a href="mailto:support@leptage.com" class="support-link">
+                support@leptage.com
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
